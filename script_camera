@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class shoot : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+    public GameObject newobject;
+    public int speed = 5;
+    // Update is called once per frame
+
+    void Update()
+    {
+        float x = Input.GetAxis("Horizontal") * Time.deltaTime * speed; 
+        float y = Input.GetAxis("Vertical") * Time.deltaTime * speed;
+        transform.Translate(x, 0, y);
+        if (Input.GetKey(KeyCode.Q))
+        {
+            transform.Rotate(0, -25 * Time.deltaTime, 0, Space.Self);
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            transform.Rotate(0, 25 * Time.deltaTime, 0, Space.Self);
+        }
+        if(Input.GetButtonDown("Fire1"))
+        {
+            GameObject n = Instantiate(newobject, transform.position, transform.rotation) as GameObject;//产生新的物体 
+            Vector3 fwd = transform.TransformDirection(Vector3.forward);//转换方向，Vector3表示xyz轴 
+            n.GetComponent<Rigidbody>().AddForce(fwd * 2800); //给物体施加一个力 
+            Destroy(n, (float)3.0);
+        }
+    }
+}
